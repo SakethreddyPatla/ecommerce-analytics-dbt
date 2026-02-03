@@ -78,10 +78,10 @@ END
 ```
 
 **Data Quality Handling:**
-- ✅ Excluded 775 unavailable/canceled orders
-- ✅ Replaced NULL categories with "Uncategorized"
-- ✅ Calculated on-time delivery metrics
-- ✅ Validated referential integrity across all tables
+-  Excluded 775 unavailable/canceled orders
+-  Replaced NULL categories with "Uncategorized"
+-  Calculated on-time delivery metrics
+-  Validated referential integrity across all tables
 
 ---
 
@@ -177,7 +177,7 @@ dbt test
 
 ---
 
-## 📈 Business Questions Answered
+## Business Questions Answered
 
 1.  **Monthly revenue trends** - Line chart with moving averages
 2.  **Top product categories** - Health & Beauty leads at $1.4M
@@ -192,7 +192,7 @@ dbt test
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 ```
 ecommerce-analytics-dbt/
 ├── ecommerce_analytics/          # dbt project
@@ -277,32 +277,3 @@ ecommerce-analytics-dbt/
 - [ ] Add ML models for demand forecasting
 
 ---
-
-## Author
-
-**Saketh Reddy Patla**
-
-- 💼 LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- 📧 Email: your.email@example.com
-- 🐙 GitHub: [@SakethreddyPatla](https://github.com/SakethreddyPatla)
-
----
-
-## License
-
-This project is open source and available under the MIT License.
-
----
-
-## Acknowledgments
-
-- **Olist** for providing the Brazilian E-Commerce dataset
-- **dbt Labs** for the excellent transformation framework
-- **DuckDB** for the fast analytical database
-- **Kimball Group** for dimensional modeling methodology
-
----
-
-**⭐ If you found this project helpful, please consider giving it a star!**
-
-*Built with ❤️ as a portfolio project demonstrating analytics engineering skills*
