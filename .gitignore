@@ -1,0 +1,36 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+*.egg-info/
+
+# DuckDB databases
+*.db
+*.duckdb
+*.db-wal
+*.db-shm
+
+# dbt
+ecommerce_analytics/target/
+ecommerce_analytics/dbt_packages/
+ecommerce_analytics/logs/
+ecommerce_analytics/dbt_modules/
+
+# Power BI
+*.pbix
+
+# Data files (too large for GitHub)
+olist_data/
+powerbi_export/
+*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Temporary files
+*.log
+*.tmp

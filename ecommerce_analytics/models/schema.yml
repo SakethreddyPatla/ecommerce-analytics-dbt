@@ -1,0 +1,189 @@
+version: 2
+
+models:
+  # ================================
+  # DIMENSION TABLES
+  # ================================
+  
+  - name: dim_customers
+    description: "Customer dimension with behavioral metrics and segmentation"
+    columns:
+      - name: customer_id
+        description: "Primary key - unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      
+      - name: customer_city
+        description: "Customer's city"
+        tests:
+          - not_null
+      
+      - name: customer_state
+        description: "Customer's state (2-letter code)"
+        tests:
+          - not_null
+      
+      - name: customer_segment
+        description: "Customer segmentation: New, One-time, Regular, or VIP"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['New', 'One-time', 'Regular', 'VIP']
+      
+      - name: lifetime_orders
+        description: "Total number of completed orders by this customer"
+        tests:
+          - not_null
+
+  - name: dim_products
+    description: "Product dimension with categories in Portuguese and English"
+    columns:
+      - name: product_id
+        description: "Primary key - unique product identifier"
+        tests:
+          - unique
+          - not_null
+      
+      - name: product_category_name
+        description: "Product category in Portuguese"
+        tests:
+          - not_null
+      
+      - name: product_category_name_english
+        description: "Product category in English"
+        tests:
+          - not_null
+
+  - name: dim_sellers
+    description: "Seller dimension with performance metrics and tiers"
+    columns:
+      - name: seller_id
+        description: "Primary key - unique seller identifier"
+        tests:
+          - unique
+          - not_null
+      
+      - name: seller_city
+        description: "Seller's city"
+        tests:
+          - not_null
+      
+      - name: seller_state
+        description: "Seller's state"
+        tests:
+          - not_null
+      
+      - name: seller_performance_tier
+        description: "Seller tier: Inactive, New, Average, Good, or Top Performer"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Inactive', 'New', 'Average', 'Good', 'Top Performer']
+      
+      - name: total_orders
+        description: "Total orders fulfilled by this seller"
+        tests:
+          - not_null
+
+  - name: dim_dates
+    description: "Calendar dimension for time-based analysis"
+    columns:
+      - name: date_day
+        description: "Primary key - unique date"
+        tests:
+          - unique
+          - not_null
+      
+      - name: year
+        description: "Year (YYYY)"
+        tests:
+          - not_null
+      
+      - name: month
+        description: "Month number (1-12)"
+        tests:
+          - not_null
+      
+      - name: day_name
+        description: "Day of week name"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      
+      - name: is_weekend
+        description: "Boolean flag for weekend days"
+        tests:
+          - not_null
+
+  # ================================
+  # FACT TABLE
+  # ================================
+  
+  - name: fct_order_items
+    description: "Fact table with order line items and all dimension references"
+    columns:
+      - name: order_id
+        description: "Order identifier (not unique - one order can have multiple items)"
+        tests:
+          - not_null
+      
+      - name: order_item_id
+        description: "Sequential item number within order"
+        tests:
+          - not_null
+      
+      - name: product_id
+        description: "Foreign key to dim_products"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      
+      - name: seller_id
+        description: "Foreign key to dim_sellers"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_id
+      
+      - name: customer_id
+        description: "Foreign key to dim_customers"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      
+      - name: order_date
+        description: "Order purchase date (foreign key to dim_dates)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_day
+      
+      - name: order_status
+        description: "Order status (should not include unavailable/canceled)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['approved', 'created', 'delivered', 'invoiced', 'processing', 'shipped']
+      
+      - name: price
+        description: "Item price (should be positive)"
+        tests:
+          - not_null
+      
+      - name: freight_value
+        description: "Shipping cost"
+        tests:
+          - not_null
+      
+      - name: line_total
+        description: "Total line item value (price + freight)"
+        tests:
+          - not_null
